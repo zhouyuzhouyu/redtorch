@@ -829,6 +829,8 @@ public class TdSpi extends CThostFtdcTraderSpi {
 	
 					if (RtConstant.DIRECTION_LONG.equals(tmpPosition.getDirection()) || (tmpPosition.getPosition() > 0
 							&& RtConstant.DIRECTION_NET.equals(tmpPosition.getDirection()))) {
+						
+
 	
 						// 计算最新价格
 						tmpPosition.setLastPrice(tmpPosition.getPrice() + tmpPosition.getPriceDiff());
@@ -841,11 +843,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 					} else if (RtConstant.DIRECTION_SHORT.equals(tmpPosition.getDirection())
 							|| (tmpPosition.getPosition() < 0
 									&& RtConstant.DIRECTION_NET.equals(tmpPosition.getDirection()))) {
-	
+						
 						// 计算最新价格
 						tmpPosition.setLastPrice(tmpPosition.getPrice() - tmpPosition.getPriceDiff());
 						// 计算开仓价格差距
-						tmpPosition.setOpenPriceDiff( tmpPosition.getLastPrice() - tmpPosition.getOpenPrice());
+						tmpPosition.setOpenPriceDiff(tmpPosition.getOpenPrice()-tmpPosition.getLastPrice());
 						// 计算开仓盈亏
 						tmpPosition.setOpenPositionProfit(
 								tmpPosition.getOpenPriceDiff() * tmpPosition.getPosition() * tmpPosition.getContractSize());
@@ -855,7 +857,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 					}
 					
 					// 计算保最新合约价值
-					tmpPosition.setContractValue((tmpPosition.getOpenPrice() + tmpPosition.getOpenPriceDiff())
+					tmpPosition.setContractValue(tmpPosition.getLastPrice()
 							* tmpPosition.getContractSize() * tmpPosition.getPosition());
 	
 					if (tmpPosition.getUseMargin() != 0) {
